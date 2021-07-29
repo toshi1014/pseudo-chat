@@ -7,7 +7,9 @@ class ProcessTalkHistory():
     def __init__(self, filepath_):
         self.filepath = filepath_
         if not self.is_cached():
-            self.make_df()
+            # self.make_df()
+            pass
+        self.make_df()      # TEMP:
 
     def is_cached(self):
         with open(self.filepath, "r", encoding="UTF-8") as f:
@@ -18,6 +20,11 @@ class ProcessTalkHistory():
 
         self.cache_filename = "../cache/" + self.opponent_name + "_" + saved_date + ".pickle"
         return os.path.exists(self.cache_filename)
+
+    def remove_non_string(self, message):
+        if message in [STAMP_EMOTICON, IMAGE, VIDEO]:
+            return "NONE"
+        return message
 
     def make_df(self):
         with open(self.filepath, "r", encoding="UTF-8") as f:
@@ -47,7 +54,7 @@ class ProcessTalkHistory():
                 name_list.append(name)
 
                 # TODO: add validation for name
-                message_list.append(message)
+                message_list.append(self.remove_non_string(message))
 
         data_dict = {
             "date": date_list, "time": time_list,
