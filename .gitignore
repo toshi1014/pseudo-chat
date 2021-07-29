@@ -1,0 +1,7 @@
+env1/
+__pycache__/
+node_modules/
+memo.txt
+script.js
+cache/
+talk_history/
