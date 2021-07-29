@@ -1,7 +1,7 @@
 import re, glob, os, pickle
 import pandas as pd
 from numpy import nan as NA
-from meta_characters import *
+from .meta_characters import *
 from janome.tokenizer import Tokenizer
 
 
@@ -24,7 +24,7 @@ class ProcessTalkHistory():
         self.opponent_name = row1.strip(HEADER_PREFIX).strip(HEADER_SUFFIX)
         saved_date = re.sub("\\D", "", row2)         ## remove un-number => saved_date == yyyymmdd
 
-        self.cache_filename = "../cache/" + self.opponent_name + "_" + saved_date + ".pickle"
+        self.cache_filename = "cache/" + self.opponent_name + "_" + saved_date + ".pickle"
         return os.path.exists(self.cache_filename)
 
 
@@ -123,6 +123,3 @@ class ProcessTalkHistory():
         ## export
         with open(self.cache_filename, "wb") as f:
             pickle.dump([opponent_markov_chain, my_markov_chian], f)
-
-
-make_df = ProcessTalkHistory(glob.glob("../talk_history/*.txt")[0])
