@@ -1,6 +1,8 @@
-import re, glob, os
+import re, glob, os, pickle
 import pandas as pd
+from numpy import nan as NA
 from meta_characters import *
+from janome.tokenizer import Tokenizer
 
 
 class ProcessTalkHistory():
@@ -8,8 +10,12 @@ class ProcessTalkHistory():
         self.filepath = filepath_
         if not self.is_cached():
             # self.make_df()
+            # self.get_message_list()
             pass
         self.make_df()      # TEMP:
+        self.get_message_list()
+        self.run()
+
 
     def is_cached(self):
         with open(self.filepath, "r", encoding="UTF-8") as f:
@@ -21,9 +27,10 @@ class ProcessTalkHistory():
         self.cache_filename = "../cache/" + self.opponent_name + "_" + saved_date + ".pickle"
         return os.path.exists(self.cache_filename)
 
+
     def remove_non_string(self, message):
         if message in [STAMP_EMOTICON, IMAGE, VIDEO]:
-            return "NONE"
+            return NA
         return message
 
     def make_df(self):
@@ -53,7 +60,6 @@ class ProcessTalkHistory():
                 time_list.append(time)
                 name_list.append(name)
 
-                # TODO: add validation for name
                 message_list.append(self.remove_non_string(message))
 
         data_dict = {
@@ -61,10 +67,62 @@ class ProcessTalkHistory():
             "name": name_list, "message": message_list,
         }
 
-        df = pd.DataFrame(data_dict, columns=data_dict.keys())
+        self.df = pd.DataFrame(data_dict, columns=data_dict.keys())
 
-        df.to_csv(self.cache_filename[:-7] + ".csv")      # DEBUG:
-        df.to_pickle(self.cache_filename)
+        self.df.to_csv(self.cache_filename[:-7] + ".csv")        # DEBUG:
+
+
+    def get_message_list(self):
+        df = self.df.dropna()
+
+        self.opponent_message_list = []
+        self.my_message_list = []
+
+        for name, message in zip(df["name"], df["message"]):
+            if name == self.opponent_name:
+                self.opponent_message_list.append(message)
+            else:
+                self.my_message_list.append(message)
+
+
+    def add_word_chain(self, tmp_list):
+        w1, w2, w3 = tmp_list
+        if not w1 in self.dict:
+            self.dict[w1] = {}
+        if not w2 in self.dict[w1]:
+            self.dict[w1][w2] = {}
+        if not w3 in self.dict[w1][w2]:
+            self.dict[w1][w2][w3] = 0
+        self.dict[w1][w2][w3] += 1
+
+
+    def make_markov_chain(self, message_list):
+        t = Tokenizer()
+        self.dict = {}
+
+        for message in message_list:
+            tmp_list = ["@"]                    ## @ as beginning of sentence
+            for rword in t.tokenize(message):
+                word = rword.surface
+                tmp_list.append(word)
+
+                if len(tmp_list) > 3:           ## 3 words dict
+                    tmp_list = tmp_list[1:]
+                elif len(tmp_list) < 3:
+                    continue
+
+                self.add_word_chain(tmp_list)
+
+        return self.dict
+
+
+    def run(self):
+        opponent_markov_chain = self.make_markov_chain(self.opponent_message_list)
+        my_markov_chian = self.make_markov_chain(self.my_message_list)
+
+        ## export
+        with open(self.cache_filename, "wb") as f:
+            pickle.dump([opponent_markov_chain, my_markov_chian], f)
 
 
 make_df = ProcessTalkHistory(glob.glob("../talk_history/*.txt")[0])
