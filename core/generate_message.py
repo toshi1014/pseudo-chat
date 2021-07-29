@@ -18,26 +18,32 @@ class GenerateMessage():
 
 
     def generate_base(self, dict):
-        word_out_list = []
+        success = False             ## flag
+        while not success:          ## avoid error
+            try:
+                word_out_list = []
 
-        fst = dict["@"]         ## @ as beginning of sentence
-        w1 = self.word_choice(fst)
-        w2 = self.word_choice(fst[w1])
+                fst = dict["@"]         ## @ as beginning of sentence
+                w1 = self.word_choice(fst)
+                w2 = self.word_choice(fst[w1])
 
-        word_out_list += [w1, w2]
+                word_out_list += [w1, w2]
 
-        while True:
-            w3 = self.word_choice(dict[w1][w2])
-            word_out_list.append(w3)
-            if w3 == "^":           ## if end of sentence
-                break
-            w1, w2 = w2, w3
+                while True:
+                    w3 = self.word_choice(dict[w1][w2])
+                    word_out_list.append(w3)
+                    if w3 == "^":           ## if end of sentence
+                        success = True
+                        break
+                    w1, w2 = w2, w3
+            except:
+                pass
 
-        return "".join(word_out_list)
+        return "".join(word_out_list).strip("^")        ## remove ^
+
 
     def get_generated_message(self, sender):
         if sender == self.opponent_name:
             return self.generate_base(self.opponent_markov_chain)
         else:
             return self.generate_base(self.my_markov_chian)
-
