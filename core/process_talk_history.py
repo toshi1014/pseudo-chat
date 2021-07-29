@@ -80,9 +80,9 @@ class ProcessTalkHistory():
 
         for name, message in zip(df["name"], df["message"]):
             if name == self.opponent_name:
-                self.opponent_message_list.append(message)
+                self.opponent_message_list.append(message + "^")        ## ^ as end of sentence
             else:
-                self.my_message_list.append(message)
+                self.my_message_list.append(message + "^")              ## ^ as end of sentence
 
 
     def add_word_chain(self, tmp_list):
