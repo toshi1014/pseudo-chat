@@ -1,0 +1,124 @@
+.container {
+    padding: 0;
+    background: #7494c0;
+    overflow: hidden;
+    max-width: 400px;
+    margin: 20px auto;
+    font-size: 80%;
+}
+
+.container .title {
+    background: #273246;
+    padding: 10px;
+    text-align: center;
+    font-size: 150%;
+    color: #ffffff;
+}
+
+.container .contents {
+    padding: 10px;
+    overflow: hidden;
+    line-height: 135%;
+}
+
+.container .scroll {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.container .opponent_post {
+    width: 100%;
+    position: relative;
+    display: block;
+    margin-bottom: 5px;
+    max-width: 80%;
+    clear: both;
+}
+
+.container .opponent_post figure {
+    width: 50px;
+    position: absolute;
+    top: 15px;
+    left: 0;
+    padding: 0;
+    margin: 0;
+}
+
+.container .opponent_post figure img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.container .opponent_post .opponent_message {
+    margin-left: 70px;
+}
+
+.container .opponent_post .opponent_message .name {
+    font-size: 80%;
+    color: #ffffff;
+}
+
+.container .opponent_post .message {
+    margin: 0;
+    position: relative;
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #ffffff;
+}
+
+.container .opponent_post .message::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    left: -10px;
+    top: 10px;
+    border-right: 20px solid #ffffff;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.container .my_post {
+    position: relative;
+    display: block;
+    margin: 5px 0;
+    max-width: 75%;
+    float: right;
+    margin-right: 15px;
+    clear: both;
+}
+
+.container .my_post .message {
+    padding: 10px;
+    border-radius: 20px;
+    background-color: #8de055;
+    margin: 0;
+    margin-left: 80px;
+}
+
+.container .my_post .message::after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    right: -10px;
+    top: 10px;
+    border-left: 20px solid #8de055;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.container .my_post .date {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100px;
+    text-align: right;
+    left: -30px;
+    bottom: 0px;
+    font-size: 80%;
+    color: #ffffff;
+}
