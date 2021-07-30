@@ -41,6 +41,25 @@ const receive = ()=>{
     moveToBottom();
 }
 
+const send = ()=>{
+    const message = getMessage();
+    const messageElem = document.createElement("div");
+    messageElem.className = "message";
+    const messageContent = document.createTextNode(message);
+    messageElem.appendChild(messageContent);
+
+    const myMessage = document.createElement("div");
+    myMessage.className = "my_message";
+    myMessage.appendChild(messageElem);
+
+    const myPost = document.createElement("div");
+    myPost.className = "my_post";
+    myPost.appendChild(myMessage);
+
+    contents.appendChild(myPost);
+    moveToBottom();
+}
+
 const moveToBottom = () =>{
     contents.scrollTop = contents.scrollHeight;
 }
