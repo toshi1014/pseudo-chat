@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+VENV_DIR=env1           # FIXME: virtualenv dir
 
 usage(){
     echo -e "" >&2
@@ -38,4 +39,10 @@ if [ "$REFRESH" = "True" ]; then
             rm "$file"
         done
     fi
+fi
+
+source $VENV_DIR/Scripts/activate
+
+if ! [ "$NO_CHECK" = "True" ]; then
+    python3 src/handle_cache.py
 fi
