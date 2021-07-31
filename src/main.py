@@ -1,5 +1,4 @@
-import glob, sys
-from core import *
+import sys
 from web_socket.server import WebsocketServerDerived
 from message_client import MessageClient
 import threading
