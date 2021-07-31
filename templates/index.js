@@ -1,7 +1,3 @@
-const ICON_FILENAME = "icon.png"; // FIXME: icon filename
-const url = "ws://localhost:5555";
-
-
 window.onload = function() {
     connection = new WebSocket(url);
     connection.onopen = WebsocketClient.onOpen;
@@ -93,3 +89,5 @@ const send = (message)=>{
 const moveToBottom = () => {
     contents.scrollTop = contents.scrollHeight;
 }
+
+;const ICON_FILENAME = 'icon.png'; const url = 'ws://localhost:5555';

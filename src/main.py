@@ -4,8 +4,8 @@ from web_socket.server import WebsocketServerDerived
 from message_client import MessageClient
 import threading
 
-PORT = 5555
-HOST = "localhost"
+HOST = sys.argv[1]
+PORT = int(sys.argv[2])
 ADDRESS = f"ws://{HOST}:{PORT}"
 
 if __name__ == '__main__':
