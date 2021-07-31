@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-VENV_DIR=env1           # FIXME: virtualenv dir
 
 usage(){
     echo -e "" >&2
@@ -41,8 +40,20 @@ if [ "$REFRESH" = "True" ]; then
     fi
 fi
 
-source $VENV_DIR/Scripts/activate
-
 if ! [ "$NO_CHECK" = "True" ]; then
-    python3 src/handle_cache.py
+    python3 src/utils/handle_cache.py
 fi
+
+
+CONFIG=`cat config.txt`
+eval $CONFIG
+CODE="
+;const ICON_FILENAME = '${ICON_FILENAME}';
+const url = 'ws://${HOST}:${PORT}';
+"
+
+sed -i "$ d" templates/index.js
+echo $CODE >> templates/index.js
+
+source $VENV_DIR/Scripts/activate
+python3 src/main.py $HOST $PORT
