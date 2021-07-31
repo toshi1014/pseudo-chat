@@ -19,7 +19,3 @@ class WebsocketServerDerived(WebsocketServer):
         self.set_fn_client_left(self.client_left)
         self.set_fn_message_received(self.message_received)
         self.run_forever()
-
-PORT = 5555
-HOST = "localhost"
-WebsocketServerDerived(PORT, HOST)
