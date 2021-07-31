@@ -1,12 +1,40 @@
 const ICON_FILENAME = "icon.png"; // FIXME: icon filename
+const url = "ws://localhost:5555";
 
-const getMessage = () => {
-    return "hello worild";
+
+window.onload = function() {
+    connection = new WebSocket(url);
+    connection.onopen = WebsocketClient.onOpen;
+    connection.onmessage = WebsocketClient.onMessage;
+}
+
+class WebsocketClient{
+    static cnt = 1;
+    static sendOrReceive = "";
+
+    static onOpen(event) {
+        console.log("[js] connected successfully");
+    }
+    static onMessage(event) {
+        if (event.data.slice(0,4) === "[py]"){
+            if (WebsocketClient.sendOrReceive === "send"){
+                send(event.data);
+            }else if(WebsocketClient.sendOrReceive === "receive"){
+                receive(event.data);
+            }
+        }
+    }
+
+    static sendData(button) {
+        WebsocketClient.sendOrReceive = button.value;
+        connection.send("[js]" + this.cnt);
+        this.cnt++;
+    }
 }
 
 const contents = document.querySelector(".contents");
 
-const receive = () => {
+const receive = (message) => {
     // icon
     const figElem = document.createElement("figure");
     const image = document.createElement("img");
@@ -21,7 +49,6 @@ const receive = () => {
     nameElem.appendChild(nameContent);
 
     // message
-    const message = getMessage();
     const messageElem = document.createElement("div");
     messageElem.className = "message";
     const messageContent = document.createTextNode(message);
@@ -44,9 +71,8 @@ const receive = () => {
     moveToBottom();
 }
 
-const send = () => {
+const send = (message)=>{
     // message
-    const message = getMessage();
     const messageElem = document.createElement("div");
     messageElem.className = "message";
     const messageContent = document.createTextNode(message);
