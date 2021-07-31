@@ -1,0 +1,5 @@
+HOST=localhost
+
+PORT=5555
+
+ICON_FILENAME=icon.png
