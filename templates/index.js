@@ -5,7 +5,6 @@ window.onload = function() {
 }
 
 class WebsocketClient{
-    static cnt = 1;
     static sendOrReceive = "";
 
     static onOpen(event) {
@@ -13,18 +12,18 @@ class WebsocketClient{
     }
     static onMessage(event) {
         if (event.data.slice(0,4) === "[py]"){
+            const message = event.data.slice(4)       // remove prefix [py]
             if (WebsocketClient.sendOrReceive === "send"){
-                send(event.data);
+                send(message);
             }else if(WebsocketClient.sendOrReceive === "receive"){
-                receive(event.data);
+                receive(message);
             }
         }
     }
 
     static sendData(button) {
         WebsocketClient.sendOrReceive = button.value;
-        connection.send("[js]" + this.cnt);
-        this.cnt++;
+        connection.send("[js]" + WebsocketClient.sendOrReceive);
     }
 }
 
