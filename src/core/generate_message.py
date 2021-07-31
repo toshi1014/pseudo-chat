@@ -4,7 +4,7 @@ import glob, random, pickle
 class GenerateMessage():
     def __init__(self, opponent_name_):
         self.opponent_name = opponent_name_
-        self.cache_filename = glob.glob("cache/" + self.opponent_name + "*.pickle")[0]
+        self.cache_filename = glob.glob("../cache/" + self.opponent_name + "*.pickle")[0]
         self.load_cache()
 
 
