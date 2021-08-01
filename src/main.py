@@ -15,3 +15,4 @@ if __name__ == '__main__':
     client = threading.Thread(target=MessageClient, args=(ADDRESS, OPPONENT_NAME))
     client.start()
     print("client connecting...")
+    print("\nsuccess")
