@@ -49,6 +49,7 @@ eval $CONFIG
 CODE="
 ;const ICON_FILENAME = '${ICON_FILENAME}';
 const url = 'ws://${HOST}:${PORT}';
+const OPPONENT_NAME = '${OPPONENT_NAME}'
 "
 
 ## remove & write config line in index.js

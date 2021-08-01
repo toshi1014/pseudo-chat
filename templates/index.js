@@ -2,6 +2,7 @@ window.onload = function() {
     connection = new WebSocket(url);
     connection.onopen = WebsocketClient.onOpen;
     connection.onmessage = WebsocketClient.onMessage;
+    document.querySelector("div.title").innerText = OPPONENT_NAME;
 }
 
 class WebsocketClient{
@@ -89,4 +90,4 @@ const moveToBottom = () => {
     contents.scrollTop = contents.scrollHeight;
 }
 
-;const ICON_FILENAME = 'icon.png'; const url = 'ws://localhost:5555';
+
