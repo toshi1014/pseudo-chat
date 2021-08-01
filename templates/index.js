@@ -38,7 +38,7 @@ const receive = (message) => {
     figElem.appendChild(image);
 
     // name
-    const opponentName = "Alice";
+    const opponentName = OPPONENT_NAME;
     const nameElem = document.createElement("div");
     nameElem.className = "opponent_name";
     const nameContent = document.createTextNode(opponentName);
