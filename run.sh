@@ -1,52 +1,49 @@
 #!/bin/bash
 
-# set -e
-#
-# usage(){
-#     echo -e "" >&2
-#     echo -e "Usage: bash run.sh [options] <opponent's name>" >&2
-#     echo >&2
-#     echo "Options: " >&2
-#     echo -e "\t-r\trefresh all caches" >&2
-#     echo -e "\t-n\tnot check update in talk_histories/" >&2
-#
-#     exit 1
-# }
-#
-# if [ $# -gt 2 ] || [ $# -lt 1  ]; then
-#     usage
-# else
-#     while getopts rn OPT; do
-#         case $OPT in
-#             "r" ) REFRESH=True;;
-#             "n" ) NO_CHECK=True;;
-#             * ) usage;;
-#         esac
-#     done
-#     shift $(($OPTIND - 1))
-#
-#     if [ $# -ne 1 ]; then
-#         usage
-#     else
-#         OPPONENT_NAME=$1
-#     fi
-# fi
-#
-# if [ "$REFRESH" = "True" ]; then
-#     if ! [ ${#a[@]} -eq 0 ]; then
-#         for file in cache/*; do
-#             rm "$file"
-#         done
-#     fi
-# fi
-#
-# if ! [ "$NO_CHECK" = "True" ]; then
-#     python3 src/utils/handle_cache.py
-# fi
-#
+set -e
+
+usage(){
+    echo -e "" >&2
+    echo -e "Usage: bash run.sh [options] <opponent's name>" >&2
+    echo >&2
+    echo "Options: " >&2
+    echo -e "\t-r\trefresh all caches" >&2
+    echo -e "\t-n\tnot check update in talk_histories/\n" >&2
+
+    exit 1
+}
+
+if [ $# -gt 2 ] || [ $# -lt 1  ]; then
+    usage
+else
+    while getopts rn OPT; do
+        case $OPT in
+            "r" ) REFRESH=True;;
+            "n" ) NO_CHECK=True;;
+            * ) usage;;
+        esac
+    done
+    shift $(($OPTIND - 1))
+
+    if [ $# -ne 1 ]; then
+        usage
+    else
+        OPPONENT_NAME=$1
+    fi
+fi
+
+if [ "$REFRESH" = "True" ]; then
+    echo -e "refreshing caches\n"
+    # if cache/ is not empty
+    if ! [ "`ls cache`" = "" ]; then
+        for file in cache/*; do
+            rm "$file"
+        done
+    fi
+fi
 
 
-# read & set config
+## read & set config
 CONFIG=`cat config.txt`
 eval $CONFIG
 CODE="
@@ -54,14 +51,16 @@ CODE="
 const url = 'ws://${HOST}:${PORT}';
 "
 
+## remove & write config line in index.js
 sed -i "$ d" templates/index.js
 echo $CODE >> templates/index.js
 
-#
-# source $VENV_DIR/bin/activate
-# echo $HOST $PORT $OPPONENT_NAME
-# python3 src/main.py $HOST $PORT $OPPONENT_NAME
+source $VENV_DIR/bin/activate
+if ! [ "$NO_CHECK" = "True" ]; then
+    if ! [ "$REFRESH" = "True" ]; then
+        echo -e "checking caches\n"
+    fi
+    python3 src/utils/handle_cache.py
+fi
 
-source env1/bin/activate
-OPPONENT_NAME=$1     #  debug
-python3 src/main.py localhost 5555 $OPPONENT_NAME
+python3 src/main.py $HOST $PORT $OPPONENT_NAME
