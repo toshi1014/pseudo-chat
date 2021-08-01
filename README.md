@@ -11,8 +11,7 @@ By reading your talk history, the new phony messages would be fabricated
 ![sample_image](docs/sample1.png)
 
 ## Requirements
-* Python 3.6+
-(In latest ver., lib *thread* might not work well)
+* Python 3.6+ (in latest ver., lib *thread* might not work well)
 
 * Ubuntu 18.04 LTS on **WSL**
 
@@ -27,9 +26,9 @@ By reading your talk history, the new phony messages would be fabricated
     (you can change in *config.txt*)
 
 2. install python lib by
-```
-pip install -r requirements.txt
-```
+    ```
+    pip install -r requirements.txt
+    ```
 
 3. make *talk_histories* directory at root
 
@@ -45,10 +44,10 @@ pip install -r requirements.txt
     (you can change in *config.txt*)
 
 4. run *run.sh* by e.g.
-```
-bash run.sh Alice
-```
-As above, *Alice* corresponds to opponent's name in chat
+    ```
+    bash run.sh Alice
+    ```
+    As above, *Alice* corresponds to opponent's name in chat
 
 5. push *receive* & *send* button
 
