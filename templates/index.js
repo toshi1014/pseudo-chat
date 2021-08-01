@@ -76,7 +76,15 @@ const send = (message)=>{
 
     const myMessage = document.createElement("div");
     myMessage.className = "my_message";
+
+    const timeElem = document.createElement("span");
+    timeElem.className = "time";
+    const currentDate = new Date();
+    const time = currentDate.getHours() + ":" + currentDate.getMinutes();
+    timeElem.innerHTML = "read<br>" + time;
+
     myMessage.appendChild(messageElem);
+    myMessage.appendChild(timeElem);
 
     const myPost = document.createElement("div");
     myPost.className = "my_post";

@@ -111,7 +111,7 @@
     border-bottom: 10px solid transparent;
 }
 
-.container .my_post .date {
+.container .my_post .time {
     content: '';
     position: absolute;
     display: block;
