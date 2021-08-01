@@ -5,6 +5,7 @@ import time
 
 class WebsocketClient():
     def __init__(self, address):
+        time.sleep(1)           ## wait for server launch
         self.ws = websocket.WebSocketApp(address,
             on_message=lambda ws, msg: self.on_message(ws, msg),
             on_close=lambda ws, msg: self.on_open(ws)
