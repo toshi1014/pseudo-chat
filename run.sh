@@ -63,4 +63,7 @@ if ! [ "$NO_CHECK" = "True" ]; then
     python3 src/utils/handle_cache.py
 fi
 
+## open in browser
+powershell.exe start templates/index.html       # FIXME:
+
 python3 src/main.py $HOST $PORT $OPPONENT_NAME
